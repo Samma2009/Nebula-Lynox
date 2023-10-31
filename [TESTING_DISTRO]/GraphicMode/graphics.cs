@@ -1,6 +1,5 @@
 ﻿using Cosmos.System;
 using Cosmos.System.Graphics;
-using TestDistro.ConsoleMode;
 using Lynox.SEF.CLI;
 using Lynox.SEF.CPU;
 using Lynox.SystemUtils;
@@ -17,13 +16,12 @@ namespace TestDistro.GraphicMode
     internal class graphics
     {
 
-        public static bool isgui = false;
+        public static bool isgui = true;
         public static Canvas canvas;
 
         public static void entry(uint collumns = 1280,uint rows = 720)
         {
 
-            isgui = true;
             canvas = FullScreenCanvas.GetFullScreenCanvas(new Mode(collumns,rows,ColorDepth.ColorDepth32));
             MouseManager.ScreenWidth = collumns;
             MouseManager.ScreenHeight = rows;
@@ -35,13 +33,14 @@ namespace TestDistro.GraphicMode
         static void ProcessUpdates()
         {
 
-            SEF_CPU.Execute("0:\\bin\\GUITB.lex");
+            int Xcalc = (int)canvas.Mode.Height - 70,Ycalc = (int)canvas.Mode.Width / 3;
+            int center = (int)canvas.Mode.Width / 2 - Ycalc / 2;
 
             while (true)
             {
-                //canvas.Clear(Color.DodgerBlue);
-                //canvas.DrawFilledRectangle(Color.DarkGray, 0, (int)canvas.Mode.Height - 30, (int)canvas.Mode.Width, 30);
-                //UpdateMouse();
+                canvas.Clear(Color.DodgerBlue);
+                canvas.DrawFilledRectangle(Color.FromArgb(100,0,0,0),center, Xcalc, Ycalc, 60);
+                UpdateMouse();
                 canvas.Display();
 
             }
